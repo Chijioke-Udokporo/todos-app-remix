@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "name": "root",
+      "path": "."
+    },
+    {
+      "name": "helpers",
+      "path": "./app/helpers"
+    },
+    {
+      "name": "modules",
+      "path": "./app/modules"
+    },
+    {
+      "name": "routes",
+      "path": "./app/routes"
+    }
+  ]
+}
