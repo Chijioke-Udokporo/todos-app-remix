@@ -1,8 +1,10 @@
 import TaskController from '../modules/task/task.controller';
+import { AnimatePresence, motion } from 'framer-motion';
 import { DataFunctionArgs } from '@remix-run/node';
 import { toast } from 'react-toastify';
 import { useEffect, useRef } from 'react';
 import { useFetcher, useLoaderData } from '@remix-run/react';
+import { TaskItem } from '~/components/task';
 
 export const loader = async ({ request }: DataFunctionArgs) => {
   return await TaskController.getTasks();
@@ -59,7 +61,11 @@ export default function Index() {
 
   return (
     <div className="flex flex-col max-w-xl gap-6 p-10 mx-auto">
-      <h1 className="text-2xl font-bold">Total Task ({tasks?.items?.length})</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-bold uppercase">Total Task ({tasks?.items?.length})</h1>
+
+        {Fetcher?.state === 'loading' && <span className="text-gray-500">Loading . . .</span>}
+      </div>
 
       <Fetcher.Form method="post" ref={formRef} className="flex gap-2">
         <input
@@ -70,37 +76,22 @@ export default function Index() {
           required
         />
 
-        {Fetcher?.state === 'idle' && (
-          <input className="p-3 w-[10em] text-white bg-blue-500 rounded" type="submit" value="GO" />
-        )}
-        {Fetcher?.state === 'loading' && (
-          <input className="p-3 w-[10em] text-white bg-blue-500 rounded" disabled value="Loading . . ." />
-        )}
+        <button
+          className="p-3 w-[6em] text-sm text-white bg-blue-500 rounded"
+          disabled={Fetcher?.state === 'loading'}
+          type="submit"
+        >
+          GO
+        </button>
       </Fetcher.Form>
 
-      <div className="flex flex-col ">
-        {tasks?.items?.map((task) => (
-          <div key={task.id} className="flex justify-between gap-2 py-4 border-b-[1px]">
-            <div>
-              <p className="text-xs text-gray-400">{task?.created}</p>
-              <p>{task?.task}</p>
-            </div>
-
-            {task?.isCompleted && <span>Completed</span>}
-
-            {!task?.isCompleted && (
-              <div className="flex items-center gap-3">
-                <button onClick={() => onCompleted(task?.id)} className="p-3 text-white bg-green-600 rounded">
-                  Done
-                </button>
-                <button onClick={() => onDelete(task?.id)} className="p-3 text-white bg-red-600 rounded">
-                  Delete
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+      <AnimatePresence>
+        <div className="flex flex-col ">
+          {tasks?.items?.map((task) => (
+            <TaskItem key={task.id} task={task} onCompleted={onCompleted} onDelete={onDelete} />
+          ))}
+        </div>
+      </AnimatePresence>
     </div>
   );
 }

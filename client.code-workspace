@@ -9,6 +9,10 @@
       "path": "./app/helpers"
     },
     {
+      "name": "components",
+      "path": "./app/components"
+    },
+    {
       "name": "modules",
       "path": "./app/modules"
     },

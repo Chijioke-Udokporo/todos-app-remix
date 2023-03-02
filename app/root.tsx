@@ -8,6 +8,8 @@ import stylesheet from '~/tailwind.css';
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesheet },
   { rel: 'stylesheet', href: toastify },
+  { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css' },
+  { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@animxyz/core' },
 ];
 
 export const meta: MetaFunction = () => ({
@@ -24,7 +26,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <ToastContainer hideProgressBar={false} />
+        <ToastContainer hideProgressBar={true} />
         <Outlet />
         <ScrollRestoration />
         <Scripts />

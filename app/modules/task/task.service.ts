@@ -15,6 +15,9 @@ interface ApiResponse {
   totalPages: number;
   items: Task[];
 }
+declare global {
+  export type TaskProps = Task;
+}
 
 // create new task
 const newTaskService = async (task: { task: string }) => {
